@@ -8,4 +8,7 @@ Getting started
 2. npm install
 3. http://localhost:3000/index.html
 
-![Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+Twitter Bootstrap Docs
+----------------------
+
+http://twitter.github.com/bootstrap/
