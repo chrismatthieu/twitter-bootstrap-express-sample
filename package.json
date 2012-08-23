@@ -3,7 +3,8 @@
   , "version": "0.0.1"
   , "node": "0.8.1"
   , "dependencies": {
-      "express": ""
+      "express": "",
+      "request": ""
   }
   ,
   "engines": {

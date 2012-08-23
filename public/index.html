@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap 2.1 Demo</title>
+  <title>Bechtel Live</title>
   <link href="css/bootstrap.css" rel="stylesheet">
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
+  <script src="js/jquery-1.8.0.js"></script>
+   <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+    }
+    </style>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
-        <div class="container">
+        <div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="/">Bechtel Live</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
-              <li class="dropdown">
+              <li><a href="/login">Login</a></li>
+<!--               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="#">Action</a></li>
@@ -32,24 +37,84 @@
                   <li><a href="#">One more separated link</a></li>
                 </ul>
               </li>
+ -->           
             </ul>
-            <form class="navbar-form pull-right">
-              <input class="span2" type="text" placeholder="Email">
-              <input class="span2" type="password" placeholder="Password">
-              <button type="submit" class="btn">Sign in</button>
+            <form class="navbar-search pull-right">
+              <input type="text" class="search-query" placeholder="Search">
             </form>
+
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
-      <div class="hero-unit">
-        <h1>test</h1>
-      </div>
+    <div class="container-fluid">
+      <div class="tabbable tabs-left">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#lA" data-toggle="tab">
+            <span class="badge badge-important pull-right">6</span> Timeline 
+            </a></li>
+          <li><a href="#lB" data-toggle="tab"><span class="badge badge-success pull-right">2</span> Tasks 
+            </a></li>
+          <li><a href="#lC" data-toggle="tab"><span class="badge badge-inverse pull-right">2</span> Email 
+            </a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="lA">
+            <center>
+            What are you doing now? (<span id="counter_box">140</span> characters remaining)
+                        <div class="input-append">              
+                          <input class="span8" id="status_input_box" size="16" type="text"><button class="btn" type="button" id="postUpdate">Submit</button>
+                        </div>
+            </center>
+            <div id="spinner" style="display:none;"><img src="/img/ajax-spinner.gif"></div>
+            <div id="chatter"></div>
+
+          </div>
+
+          <div class="tab-pane" id="lB">
+            <div class="hero-unit">
+              Tasks go here
+            </div>
+          </div>
+          <div class="tab-pane" id="lC">
+            <iframe src="https://mobile.bechtel.com/" width="100%" height="800px"></iframe>
+          </div>
+        </div>
+      </div> <!-- /tabbable -->
     </div>  
 
-    <script src="js/jquery-1.8.0.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){ 
+
+         $("#postUpdate").click(function() {
+
+          $("#spinner").show();
+          // $("#result").empty();
+          $("#chatter").fadeOut("slow", function(){
+
+            $.ajax({
+              type: "POST",
+              url: "/chatter",
+              data: { status: $("#status_input_box").val() }
+            }).done(function( html ) {
+              $("#spinner").hide();
+              $("#chatter").prepend(html);
+            });
+
+          });
+          $("#chatter").fadeIn("slow");
+     
+         });
+
+      }); //document ready
+
+      $('#status_input_box').keyup(function(){
+          var s = 140 - $(this).val().length;
+          $('#counter_box').text(s);
+      });
+    </script>
+
     <script src="js/bootstrap-transition.js"></script>
     <script src="js/bootstrap-alert.js"></script>
     <script src="js/bootstrap-modal.js"></script>
